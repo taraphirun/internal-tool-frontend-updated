@@ -1,6 +1,8 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import Dashboard from '@/views/DashboardView.vue'
-
+import {getCurrentUser} from "vuefire";
+import {useMainStore} from "@/stores/main.js";
+import axios from "@/http.js";
 const routes = [
   {
     // Document title tag
@@ -134,6 +136,24 @@ const router = createRouter({
   scrollBehavior (to, from, savedPosition) {
     return savedPosition || { top: 0 }
   }
+})
+router.beforeEach(async (to,from,next) => {
+  const user = await getCurrentUser()
+  console.log("userss",user,!user,to.path,to.path != '/login')
+  if(to.path != '/login') {
+    if (!user) {
+      next("/login");
+    }else{
+      const mainStore = useMainStore()
+      mainStore.setFirebaseToken(user)
+      const current = await axios.get("/users/current")
+      mainStore.currentUser = current.data
+      console.log("mainStore.currentUser", mainStore.currentUser)
+      next();
+    }
+  }
+  next();
+
 })
 
 export default router

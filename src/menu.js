@@ -1,16 +1,5 @@
 import {
-  mdiAccountCircle,
-  mdiDesktopMac,
-  mdiHelpCircle,
-  mdiLock,
-  mdiSquareEditOutline,
   mdiTable,
-  mdiMenuOpen,
-  mdiTelevisionGuide,
-  mdiBarcode,
-  mdiThemeLightDark,
-  mdiPalette,
-  mdiCardAccountDetailsOutline, 
   mdiHumanGreetingVariant,
   mdiViewDashboard,
   mdiGoogle,
@@ -32,7 +21,7 @@ export default [
       {
         to: '/onboarding/facebook',
         label: 'Facebook',
-        icon: mdiFacebook 
+        icon: mdiFacebook
       },
       {
         label: 'Google',
@@ -93,7 +82,7 @@ export default [
   //   label: 'Pricing with very long item label',
   //   icon: mdiBarcode
   // },
-  
+
   // {
   //   to: '/profile',
   //   label: 'Profile',
@@ -115,7 +104,7 @@ export default [
   //     {
   //       to: '/profile',
   //       label: 'Sample RouterLink',
-  //       icon: mdiCardAccountDetailsOutline 
+  //       icon: mdiCardAccountDetailsOutline
   //     },
   //     {
   //       label: 'External link',

@@ -27,6 +27,10 @@ import UserAvatar from '@/components/UserAvatar.vue'
 import BaseIcon from '@/components/BaseIcon.vue'
 import NavBarSearch from '@/components/NavBarSearch.vue'
 import NavBarItem from '@/components/NavBarItem.vue'
+import { getAuth, signOut } from "firebase/auth";
+import {useRouter} from 'vue-router';
+
+const router = useRouter();
 
 const layoutStore = useLayoutStore()
 
@@ -60,11 +64,17 @@ const updatesUpdateMark = computed(() => !updatesClicked.value && mainStore.upda
 const toggleLightDark = () => {
   useStyleStore().setDarkMode()
 }
+const logout = () => {
+  console.log("logout");
+  signOut(getAuth()).then(() => {
+    router.go("/");
+  });
+};
 </script>
 
 <template>
   <nav
-    class="lg:pl-22 fixed top-0 inset-x-0 bg-gray-50 dark:bg-slate-800 h-14 z-30 w-screen transition-position lg:transition-none 
+    class="lg:pl-22 fixed top-0 inset-x-0 bg-gray-50 dark:bg-slate-800 h-14 z-30 w-screen transition-position lg:transition-none
     lg:w-auto"
   >
     <div class="lg:px-6 xl:max-w-7xl xl:mx-auto flex lg:items-stretch">
@@ -160,10 +170,11 @@ const toggleLightDark = () => {
                 />
               </NavBarItem>
               <BaseDivider nav-bar />
-              <NavBarItem>
+              <NavBarItem @click="logout()">
                 <NavBarItemLabel
                   :icon="mdiLogout"
                   label="Log Out"
+
                 />
               </NavBarItem>
             </template>
@@ -200,10 +211,11 @@ const toggleLightDark = () => {
               is-desktop-icon-only
             />
           </NavBarItem>
-          <NavBarItem is-desktop-icon-only>
+          <NavBarItem   @click="logout()" is-desktop-icon-only>
             <NavBarItemLabel
               :icon="mdiLogout"
               label="Log out"
+
               is-desktop-icon-only
             />
           </NavBarItem>

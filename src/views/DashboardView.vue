@@ -10,13 +10,6 @@ import {
     mdiMonitorCellphone,
     mdiReload,
     mdiBell,
-    mdiCog,
-    mdiPlusCircle,
-    mdiBroadcast,
-    mdiBriefcaseVariant,
-    mdiCalendarToday,
-    mdiCameraSwitch,
-    mdiChartPie,
 } from '@mdi/js'
 import * as chartConfig from '@/components/Charts/chart.config.js'
 import LineChart from '@/components/Charts/LineChart.vue'
@@ -25,14 +18,6 @@ import SectionTitleLineWithButton from '@/components/SectionTitleLineWithButton.
 import CardBoxWidget from '@/components/CardBoxWidget.vue'
 import CardBox from '@/components/CardBox.vue'
 import TableSampleClients from '@/components/TableSampleClients.vue'
-import NotificationBar from '@/components/NotificationBar.vue'
-import CardBoxClient from '@/components/CardBoxClient.vue'
-import CardBoxTransaction from '@/components/CardBoxTransaction.vue'
-import CardBoxProduct from '@/components/CardBoxProduct.vue'
-import CardBoxAmountItem from '@/components/CardBoxAmountItem.vue'
-import BaseButtons from '@/components/BaseButtons.vue'
-import BaseButton from '@/components/BaseButton.vue'
-import UserCard from '@/components/UserCard.vue'
 import LayoutAuthenticated from '@/layouts/LayoutAuthenticated.vue'
 import FormField from '@/components/FormField.vue'
 import FormControl from '@/components/FormControl.vue'
@@ -73,13 +58,6 @@ const userSwitchVal = ref([])
 watch(userSwitchVal, value => {
     mainStore.pushMessage(value && value.indexOf('one') > -1 ? 'Success! Now active' : 'Done! Now inactive')
 })
-
-const clientBarItems = computed(() => mainStore.clients.slice(0, 3))
-
-const transactionBarItems = computed(() => mainStore.history)
-
-const productBarItems = computed(() => mainStore.products)
-
 
 const listBoxOptions = [
     { id: 1, label: 'Howell Hand', unavailable: false },

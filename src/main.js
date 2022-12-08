@@ -7,6 +7,10 @@ import { useMainStore } from '@/stores/main.js'
 import { useLayoutStore } from '@/stores/layout.js'
 import { useStyleStore } from '@/stores/style.js'
 import { darkModeKey, styleKey } from '@/config.js'
+import {initializeApp} from 'firebase/app'
+import {getAuth} from 'firebase/auth'
+import dayjs from 'dayjs'
+import { VueFire, VueFireAuth } from 'vuefire'
 
 import './css/main.css'
 
@@ -14,7 +18,21 @@ import './css/main.css'
 const pinia = createPinia()
 
 /* Create Vue app */
-createApp(App).use(router).use(pinia).mount('#app')
+console.log("🌎 Running in " + import.meta.env.VITE_ENV + " mode")
+const firebaseConfig = {
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  databaseURL: import.meta.env.VITE_FIREBASE_DATABASE_URL,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
+};
+const firebaseApp = initializeApp(firebaseConfig);
+getAuth();
+// Firebase
+
 
 /* Init Pinia stores */
 const mainStore = useMainStore(pinia)
@@ -26,10 +44,10 @@ layoutStore.responsiveLayoutControl()
 window.onresize = () => layoutStore.responsiveLayoutControl()
 
 /* Fetch sample data */
-mainStore.fetch('clients')
-mainStore.fetch('history')
-mainStore.fetch('products')
-mainStore.fetch('updates')
+// mainStore.fetch('clients')
+// mainStore.fetch('history')
+// mainStore.fetch('products')
+// mainStore.fetch('updates')
 
 /* App style */
 styleStore.setStyle(localStorage[styleKey] ?? 'white')
@@ -40,7 +58,7 @@ if ((!localStorage[darkModeKey] && window.matchMedia('(prefers-color-scheme: dar
 }
 
 /* Default title tag */
-const defaultDocumentTitle = 'Admin One Vue 3 Tailwind'
+const defaultDocumentTitle = 'RA Internal Tool'
 
 /* Collapse mobile aside menu on route change */
 router.beforeEach(() => {
@@ -59,3 +77,18 @@ router.afterEach(to => {
 
   layoutStore.responsiveLayoutControl()
 })
+
+createApp(App).use(pinia).use(router).use(VueFire, {
+  // imported above but could also just be created here
+  firebaseApp,
+  modules: [
+    // we will see other modules later on
+    VueFireAuth(),
+  ],
+}).mixin({
+  methods: {
+    formatDate(date) {
+      return dayjs(date).format("DD/MM/YYYY");
+    },
+  },
+}).mount('#app')
